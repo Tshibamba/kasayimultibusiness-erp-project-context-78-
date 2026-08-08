@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme {
+  --color-marine: #1b4f72;
+  --color-marine-clair: #2874a6;
+  --color-ciel: #2e86ab;
+  --color-ciel-clair: #5dade2;
+  --color-or: #f0a500;
+  --color-or-clair: #f7c948;
+  --color-succes: #27ae60;
+  --color-danger: #e74c3c;
+  --color-cendre: #1e293b;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Poppins", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-card: 0 1px 3px rgba(16, 24, 40, 0.08), 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-soft: 0 10px 30px -12px rgba(27, 79, 114, 0.18);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: #f1f5f9;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Barre de défilement discrète */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+  border: 2px solid #f1f5f9;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+@keyframes pulse-alert {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+.animate-pulse-alert {
+  animation: pulse-alert 1.8s ease-in-out infinite;
+}
+
+/* Bandeau défilant (flash infos) */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+.marquee-track:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+/* Galerie / carrousel : défilement doux */
+.scroll-snap-x {
+  scroll-snap-type: x mandatory;
+}
+.snap-item {
+  scroll-snap-align: start;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

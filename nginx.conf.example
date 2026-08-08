@@ -1,0 +1,41 @@
+# Nginx Configuration — KasayiMultiBusiness ERP
+# Installation :
+#   sudo cp nginx.conf.example /etc/nginx/sites-available/kasayi-erp
+#   sudo ln -s /etc/nginx/sites-available/kasayi-erp /etc/nginx/sites-enabled/
+#   sudo nginx -t && sudo systemctl reload nginx
+#   sudo certbot --nginx -d votre-domaine.com
+
+server {
+    listen 80;
+    server_name votre-domaine.com;
+
+    # Redirection vers HTTPS (après certbot)
+    # return 301 https://$host$request_uri;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    # Taille max pour uploads
+    client_max_body_size 10M;
+
+    # Compression
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml;
+    gzip_min_length 1000;
+
+    # Cache assets statiques
+    location /_next/static/ {
+        proxy_pass http://127.0.0.1:3000;
+        expires 365d;
+        add_header Cache-Control "public, immutable";
+    }
+}
